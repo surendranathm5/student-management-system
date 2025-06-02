@@ -1,0 +1,108 @@
+import java.util.*;
+public class StudentManagementSystem {
+    private static Map<Integer, Student> studentDatabase = new HashMap<>();
+
+    // Method to add a student
+    public static void addStudent(int rollNumber, String name, String course, double marks) {
+        Student student = new Student(rollNumber, name, course, marks);
+        studentDatabase.put(rollNumber, student);
+        System.out.println("Student added successfully.");
+    }
+
+    // Method to display all students
+    public static void displayStudents() {
+        if (studentDatabase.isEmpty()) {
+            System.out.println("No students found.");
+        } else {
+            for (Student student : studentDatabase.values()) {
+                System.out.println(student);
+            }
+        }
+    }
+
+    // Method to update student details
+    public static void updateStudent(int rollNumber, String name, String course, double marks) {
+        Student student = studentDatabase.get(rollNumber);
+        if (student != null) {
+            student.setName(name);
+            student.setCourse(course);
+            student.setMarks(marks);
+            System.out.println("Student details updated successfully.");
+        } else {
+            System.out.println("Student with Roll Number " + rollNumber + " not found.");
+        }
+    }
+
+    // Method to delete a student
+    public static void deleteStudent(int rollNumber) {
+        if (studentDatabase.containsKey(rollNumber)) {
+            studentDatabase.remove(rollNumber);
+            System.out.println("Student deleted successfully.");
+        } else {
+            System.out.println("Student with Roll Number " + rollNumber + " not found.");
+        }
+    }
+
+    // Main function to display menu and handle user input
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nStudent Management System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Display Students");
+            System.out.println("3. Update Student");
+            System.out.println("4. Delete Student");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1: // Add student
+                    System.out.print("Enter Roll Number: ");
+                    int rollNumber = scanner.nextInt();
+                    scanner.nextLine();  // consume the newline character
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Course: ");
+                    String course = scanner.nextLine();
+                    System.out.print("Enter Marks: ");
+                    double marks = scanner.nextDouble();
+                    addStudent(rollNumber, name, course, marks);
+                    break;
+
+                case 2: // Display students
+                    displayStudents();
+                    break;
+
+                case 3: // Update student
+                    System.out.print("Enter Roll Number of student to update: ");
+                    int updateRollNumber = scanner.nextInt();
+                    scanner.nextLine();  // consume the newline character
+                    System.out.print("Enter new Name: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Enter new Course: ");
+                    String newCourse = scanner.nextLine();
+                    System.out.print("Enter new Marks: ");
+                    double newMarks = scanner.nextDouble();
+                    updateStudent(updateRollNumber, newName, newCourse, newMarks);
+                    break;
+
+                case 4: // Delete student
+                    System.out.print("Enter Roll Number of student to delete: ");
+                    int deleteRollNumber = scanner.nextInt();
+                    deleteStudent(deleteRollNumber);
+                    break;
+
+                case 5: // Exit
+                    System.out.println("Exiting the program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
